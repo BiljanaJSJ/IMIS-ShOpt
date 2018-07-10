@@ -1,0 +1,15 @@
+Brief descriptions of the files included in this directory:
+
+FhN-model-set-up-as-ode-x0proc-thetalik-2SD.R        - help functions Collocation optimization
+fhn-model-set-up-x0proc-Normal(c)-2SDs.R             - functions for the likelihood and priors
+IMIS.opt.colloc.proc-3optimizers.general.R           - implementation of the IMIS_ShOp with 3 optimizers
+IMIS.R                                               - implementation of the IMIS-Opt algorithm IMIS R package
+IMIS-colloc-optimizer-functions.R                    - the CollocInfer functions 
+makeSSE.R                                            - the CollocInfer functions needed for one of the Collocation based optmizer in IMIS-ShOpt
+makeSSElik.R                                         - CollocInfer function
+run_FHN_full.R                                       - run the algorithm
+smoother_opt.R                                       - run the Collocation based optimizer
+Two-stage-FhN.R                                      - run the Two-stage optimizer
+FhN-IMIS-3-optimizers-no-touch-ups-with-prior.Rdata  - samples obtained after running the IMIS-ShOpt algorithm 
+IMIS_shopt_full_fhn_D30.RData                        - samples obtained after running the IMIS-Opt algorithm 
+

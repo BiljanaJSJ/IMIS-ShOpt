@@ -1,0 +1,8 @@
+Brief descriptions of the files included in this directory:
+
+IMIS_ShOpt_ABC.R                                                     - Implementation of the IMIS-ShOpt-ABC
+RickerABC_functions.R                                                - functions used to run IMIS-ShOpt-ABC
+run_IMIS_Shopt_ABC_1_fromCluster.R                                   - run IMIS-ShOpt-ABC
+plots_IMIS_ShOpt_ABC.R                                               - generate plots
+LoadDataEps_theta_RickerData_newData_poiss_neweps_0.3_trynew.R       - simulated data used by the IMIS-ShOpt-ABC
+samples.RData                                                        - samples obtained from the  IMIS-ShOpt-ABC                         

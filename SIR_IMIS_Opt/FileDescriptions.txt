@@ -1,0 +1,7 @@
+Brief descriptions of the files included in this directory:
+
+Eyam_time_SIR.csv              - Eyam plague data
+SIR_IMIS_Opt_functions.R       - functions used to run IMIS-Opt
+run_Opt.R                      - run IMIS-Opt
+pairsplot.R                    - generate plots 
+IMIS_opt_WidePrior1000.RData   - samples obtained after running the IMIS-Opt 
