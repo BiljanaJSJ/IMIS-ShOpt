@@ -1,5 +1,6 @@
 Incremental Mixture Importance Sampling with Shotgun optimization
 
+Biljana Jonoska Stojkova and David A. Campbell
 
 This paper proposes a general optimization strategy, which combines results from different optimization or parameter estimation methods to overcome shortcomings of a single method.  
 Shotgun optimization is developed as a framework which employs different optimization strategies, criteria, or conditional targets to enable wider likelihood exploration.  The introduced Shotgun optimization approach is embedded into an incremental mixture importance sampling algorithm to produce improved posterior samples for multimodal densities and creates robustness in cases where the likelihood and prior are in disagreement.  Despite using different optimization approaches, the samples are combined into samples from a single target posterior.   The diversity of the framework is demonstrated on parameter estimation from differential equation models employing diverse strategies including numerical solutions and approximations thereof.  Additionally the approach is demonstrated on mixtures of discrete and continuous parameters and is shown to ease estimation from synthetic likelihood models. 
