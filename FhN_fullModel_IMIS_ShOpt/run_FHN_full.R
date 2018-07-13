@@ -110,10 +110,10 @@ control.out$trace=1
 colnames(coefs) = names(x0)
 
 #IMIS-ShOpt input parameters
-B=1000 
+B=700
 B.re=10000
 number_k=150
-D=30
+D=4
 parnames = names(pars)
 datamatrix=data
 plots=3
@@ -153,12 +153,13 @@ clusterCall(cl,function(x) {library(lokern)})
 clusterExport(cl,varlist=ls())
 
 #clusterExport(cl,varlist=list("IMIS.opt.colloc.3optimizers.general","make.fhn","%dopar%","foreach",'make.SSEproc.FHN',"neglogprior","neglogpriorx0","prior","priorx0","likelihood",'times',"dnegnormdp",'make.SSElik',"dneglogpriordpar","lokerns","ksLqudratic",'simex.fun.justc','simex.fun','sample.prior','ginv','dinvgamma','dnegIgammadp',"twostage.optim.fhn",""neq""))
-
+t1=proc.time()[1]
 #run the IMIS-ShOpt for the FhN with full parameter set to be estimated
 output<- IMIS.opt.colloc.3optimizers.general(B, B.re, number_k, D,parnames ,lik=lik,proc=proc,coefs=coefs,data=data,plots=0,ncoefs=ncoefs, optim.fun1=ident,optim.fun2=smoother.opt,optim.fun3=two.stager,likelihood.w.fit=likelihood.w.fit,other)	
 
 #save the results
-save(output,file='IMIS_shopt_full_fhn_D30.RData')
+save(output,file='IMIS_shopt_full_fhn_D10.RData')
+(t=proc.time()[1]-t1)/60
 stopCluster(cl)
 
 save.image("FhN-IMIS-3-optimizers-no-touch-ups-with-prior.Rdata")

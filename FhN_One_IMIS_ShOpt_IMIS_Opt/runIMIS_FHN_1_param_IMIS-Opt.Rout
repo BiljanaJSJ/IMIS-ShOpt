@@ -1,0 +1,709 @@
+
+R version 3.5.0 (2018-04-23) -- "Joy in Playing"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> ########################################################################################
+> #This file runs both IMIS-ShOpt and IMIS-Opt with the same settings and write files with results
+> ########################################################################################
+> rm(list = ls(all = TRUE))
+> 
+> source("Two-stage-FhN-just-c-with-prior.R")                         # 2-stage functions
+> source("IMIS.opt.colloc.proc-3optimizers.general-no-touchups.R")    # General IMIS 3 optimizers function 
+> source("fhn-model-set-up-x0proc-just-c.R")                          # likelihood etc...
+> source("FhN-model-set-up-as-ode-x0proc-thetalik-justc.R")		        # basic FhN functions
+> #source('AnimationRuns.R')
+> 
+> # include an ode solver package
+> library(deSolve)
+> library(mvtnorm)
+> library(coda)
+> library(deSolve)
+> library(fda)
+Loading required package: splines
+Loading required package: Matrix
+
+Attaching package: ‘fda’
+
+The following object is masked from ‘package:graphics’:
+
+    matplot
+
+> library(CollocInfer)
+> source("makeSSElik.R")
+> source("makeSSEprocFHN.R")
+> 
+> 
+> library(doParallel)
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: parallel
+> 
+> fhn<- make.FHN()
+> 
+> #make some fake data
+> times = seq(0,20,0.2) 
+> print("Note that the parameter labelled 'sd' is actually a variance.  will fix this eventually")
+[1] "Note that the parameter labelled 'sd' is actually a variance.  will fix this eventually"
+> x0	= c(-1,1) 
+> names(x0) = c("V","R")
+> pars=c(3)
+> parnames =names(pars)=c("c")
+> 
+> y	= lsoda(x0,times,fhn$fn.ode,pars) 
+> 
+> y	= y[,2:3] 
+> data = y + matrix(rnorm(dim(y)[1]*2,0,sqrt(.05^2)),length(times),2)
+> 
+> 
+> lambda=1000
+> 
+> knots = knots = seq(0,20,1) 
+> 
+> norder= 3									# order of the b-spline basis
+> nbasis = length(knots) +norder -2           # number of basis functions
+> range = c(0,max(times))						# time span of the observations
+> bbasis = create.bspline.basis(range=range, nbasis=nbasis, norder=norder, breaks=knots)
+> fd.data = array(data,c(nrow(data),1,ncol(data)))
+> DEfd = Data2fd(y=fd.data,argvals=times,basisobj=bbasis,fdnames = list(NULL,NULL, colnames(data)))
+> if(!exists("DEfd",where=1)){# then the data2fd line failed - this can occur when there are unobserved variables
++   data.temp=array(0,dim(fd.data))
++   data.temp[,,apply(is.na(fd.data),3,sum)<(dim(fd.data)[1]-2)]    =fd.data[,,apply(is.na(fd.data),3,sum)<(dim(fd.data)[1]-2)]
++   DEfd.temp = Data2fd(data.temp,times,bbasis,fdnames = list(NULL,NULL, colnames(data)))	
++ }				
+> coefs = DEfd$coefs
+> colnames(coefs) = colnames(data)
+> 
+> #
+> 
+> lik=make.SSElik.with.prior.and.sd()
+> lik$bvals = eval.basis(times,bbasis)
+> #lik$bvals[1,] = 0###########because I need to put all of the dlik/dc(1) into dlik/dp for X(0)
+> lik$more	= make.id() 
+> lik$more$weights = array(1,dim(data)) 
+> lik$more$bvals  = eval.basis(times,bbasis,0)     ######## needed only if x0 is a parameter
+> lik$more$dbvals = eval.basis(times,bbasis,1)    ######## needed only if x0 is a parameter
+> lik$x0index = c(5,6)  # index for the initial conditions
+> proc=make.SSEproc.FHN()
+> proc$bvals=lik$bvals
+> qpts =knots
+> qwts = rep(diff(range(times))/length(knots),length(knots))
+> qwtsL = qwts %*% t(lambda)
+> proc$more = fhn 
+> proc$more$weightsNoL = qwts 
+> proc$more$lambda = lambda 
+> proc$more$weights = qwtsL 
+> 
+> proc$more$qpts	= qpts 
+> proc$more$parnames	= 'c'
+> proc$more$names	= c("V","R")
+> proc$bvals = list(bvals = eval.basis(proc$more$qpts,bbasis,0), dbvals = eval.basis(proc$more$qpts,bbasis,1))
+> print("Note that the lambda value ignored since proc is supplied")
+[1] "Note that the lambda value ignored since proc is supplied"
+> 
+> # end of FDA set up stuff
+> # smoothing based optimizer control options
+> 
+> control=list()
+> control$trace=0
+> control$iter.max=1000
+> control$eval.max=1e3
+> control$rel.tol=1e-8
+> control.in=control
+> control.in$rel.tol = 1e-12
+> control.in$iter.max = 1000
+> control.out=control
+> control.out$trace=1
+> 
+> 
+> colnames(coefs) = names(x0)
+> 
+> 
+> 
+> #spars = c(.2,.2,14,1,-.5,.5)          # Perturbed parameters  Note that the first two should stay fixed since we are dealing with a one dimensional 
+> #system.  The third parameter is the one to manipulate
+> #names(spars)=c("c")
+> 
+> B=1000
+> B.re=10000
+> number_k=150
+> D=4
+> parnames = names(pars)
+> datamatrix=data
+> plots=1
+> likelihood.w.fit=NULL
+> ncoefs=0
+> 
+> 
+> other = list()
+> other$coefs        = coefs    
+> other$lik          = lik         
+> other$proc         = proc       
+> proc$more$parnames = names(pars) 
+> other$control.in   = control.in  
+> other$control.out  = control.out 
+> other$ncoefs       = ncoefs      
+> 
+> optim.fun1 = ident
+> optim.fun2 = smoother.opt
+> optim.fun3 = twostage.optim.fhn.justc
+> 
+> cl <- makeCluster(4)
+> registerDoParallel(cl)
+> clusterCall(cl,function(x) {library(deSolve);library(CollocInfer);library(numDeriv);library(lokern)})
+[[1]]
+ [1] "lokern"      "numDeriv"    "CollocInfer" "fda"         "Matrix"     
+ [6] "splines"     "deSolve"     "stats"       "graphics"    "grDevices"  
+[11] "utils"       "datasets"    "methods"     "base"       
+
+[[2]]
+ [1] "lokern"      "numDeriv"    "CollocInfer" "fda"         "Matrix"     
+ [6] "splines"     "deSolve"     "stats"       "graphics"    "grDevices"  
+[11] "utils"       "datasets"    "methods"     "base"       
+
+[[3]]
+ [1] "lokern"      "numDeriv"    "CollocInfer" "fda"         "Matrix"     
+ [6] "splines"     "deSolve"     "stats"       "graphics"    "grDevices"  
+[11] "utils"       "datasets"    "methods"     "base"       
+
+[[4]]
+ [1] "lokern"      "numDeriv"    "CollocInfer" "fda"         "Matrix"     
+ [6] "splines"     "deSolve"     "stats"       "graphics"    "grDevices"  
+[11] "utils"       "datasets"    "methods"     "base"       
+
+> clusterExport(cl,varlist=list('IMIS.opt.colloc.3optimizers.general.no.touch.ups','d2negnormdp2',"make.fhn","%dopar%","foreach",'make.SSEproc.FHN',"neglogprior","prior","likelihood",'times',"dnegnormdp",'make.SSElik',"dneglogpriordpar","lokerns","ksLqudratic",'simex.fun.justc','neq','der.fhn.justc','jac.fhn.justc','d2neglogpriordpar2'))
+> clusterExport(cl,varlist=ls())
+> 
+> t1=proc.time()[1]
+> ##run the IMIS-ShOpt algorithm
+> output<- IMIS.opt.colloc.3optimizers.general.no.touch.ups(B, B.re, number_k, D,parnames = c("c"),data=data, plots=0, ncoefs=ncoefs, optim.fun1, optim.fun2, optim.fun3,other)
+[1] "herek"
+[1] 1
+[1] "10000 likelihoods are evaluated in 0.77 minutes"
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   1.000  -9.210 115.542   0.027  52.092
+[1] "Here 1"
+[1] "herei"
+[1] 1
+[1] "i= 1"
+[1] "optimization starting from a value of  11.9670356604261"
+[1] "standard optimizer  11.9670356604261"
+[1] "next step smoothing based optimizer   8.8879679131503"
+[1] "2 step based optimizer   2.99578793546317"
+[1] "herei"
+[1] 2
+[1] "i= 2"
+[1] "optimization starting from a value of  11.5687251574494"
+[1] "standard optimizer  11.5687251574494"
+[1] "next step smoothing based optimizer   8.88800805627571"
+[1] "2 step based optimizer   2.99578782535892"
+[1] "herei"
+[1] 3
+[1] "i= 3"
+[1] "optimization starting from a value of  12.7150791380671"
+[1] "standard optimizer  12.7150791380671"
+[1] "next step smoothing based optimizer   2.99578731099086"
+[1] "2 step based optimizer   2.99578794631426"
+[1] "Here 3"
+[1] "here it is"
+[1] "herek"
+[1] 2
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    2.000   -9.852 3671.758    0.000 3999.981
+[1] "k>1, k= 2"
+[1] "here it is"
+[1] "herek"
+[1] 3
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    3.000   -9.903 3650.637    0.000 3953.228
+[1] "k>1, k= 3"
+[1] "here it is"
+[1] "herek"
+[1] 4
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    4.000   -9.952 3595.871    0.000 3792.038
+[1] "k>1, k= 4"
+[1] "here it is"
+[1] "herek"
+[1] 5
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    5.000   -9.999 3577.851    0.000 3701.358
+[1] "k>1, k= 5"
+[1] "here it is"
+[1] "herek"
+[1] 6
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    6.000  -10.043 3542.752    0.000 3587.691
+[1] "k>1, k= 6"
+[1] "here it is"
+[1] "herek"
+[1] 7
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    7.000  -10.086 3583.401    0.000 3682.293
+[1] "k>1, k= 7"
+[1] "here it is"
+[1] "herek"
+[1] 8
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    8.000  -10.127 3591.190    0.000 3700.893
+[1] "k>1, k= 8"
+[1] "here it is"
+[1] "herek"
+[1] 9
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    9.000  -10.166 3628.598    0.000 3857.633
+[1] "k>1, k= 9"
+[1] "here it is"
+[1] "herek"
+[1] 10
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   10.000  -10.204 3622.547    0.000 3837.544
+[1] "k>1, k= 10"
+[1] "here it is"
+[1] "herek"
+[1] 11
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   11.000  -10.240 3610.010    0.000 3819.626
+[1] "k>1, k= 11"
+[1] "here it is"
+[1] "herek"
+[1] 12
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   12.000  -10.275 3580.089    0.000 3749.196
+[1] "k>1, k= 12"
+[1] "here it is"
+[1] "herek"
+[1] 13
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   13.000  -10.309 3575.035    0.000 3719.700
+[1] "k>1, k= 13"
+[1] "here it is"
+[1] "herek"
+[1] 14
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   14.000  -10.342 3577.490    0.000 3715.563
+[1] "k>1, k= 14"
+[1] "here it is"
+[1] "herek"
+[1] 15
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   15.000  -10.373 3588.104    0.000 3741.401
+[1] "k>1, k= 15"
+[1] "here it is"
+[1] "herek"
+[1] 16
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   16.000  -10.404 3591.516    0.000 3740.980
+[1] "k>1, k= 16"
+[1] "here it is"
+[1] "herek"
+[1] 17
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   17.000  -10.434 3595.229    0.000 3743.775
+[1] "k>1, k= 17"
+[1] "here it is"
+[1] "herek"
+[1] 18
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   18.000  -10.463 3603.410    0.000 3768.415
+[1] "k>1, k= 18"
+[1] "here it is"
+[1] "herek"
+[1] 19
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   19.000  -10.491 3614.937    0.000 3816.662
+[1] "k>1, k= 19"
+[1] "here it is"
+[1] "herek"
+[1] 20
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   20.000  -10.519 3606.132    0.000 3785.558
+[1] "k>1, k= 20"
+[1] "here it is"
+[1] "herek"
+[1] 21
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   21.000  -10.545 3608.671    0.000 3793.286
+[1] "k>1, k= 21"
+[1] "here it is"
+[1] "herek"
+[1] 22
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   22.000  -10.571 3609.067    0.000 3793.056
+[1] "k>1, k= 22"
+[1] "here it is"
+[1] "herek"
+[1] 23
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   23.000  -10.597 3605.824    0.000 3778.576
+[1] "k>1, k= 23"
+[1] "here it is"
+[1] "herek"
+[1] 24
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   24.000  -10.621 3605.772    0.000 3775.643
+[1] "k>1, k= 24"
+[1] "here it is"
+[1] "herek"
+[1] 25
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   25.000  -10.645 3606.367    0.000 3774.732
+[1] "k>1, k= 25"
+[1] "here it is"
+[1] "herek"
+[1] 26
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   26.000  -10.669 3611.363    0.000 3791.857
+[1] "k>1, k= 26"
+[1] "here it is"
+[1] "herek"
+[1] 27
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   27.000  -10.692 3613.780    0.000 3799.123
+[1] "k>1, k= 27"
+[1] "here it is"
+[1] "herek"
+[1] 28
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   28.000  -10.714 3618.007    0.000 3811.875
+[1] "k>1, k= 28"
+[1] "here it is"
+[1] "herek"
+[1] 29
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   29.000  -10.736 3621.481    0.000 3824.756
+[1] "k>1, k= 29"
+[1] "here it is"
+[1] "herek"
+[1] 30
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   30.000  -10.758 3622.651    0.000 3832.011
+[1] "k>1, k= 30"
+[1] "here it is"
+[1] "herek"
+[1] 31
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   31.000  -10.779 3623.477    0.000 3835.910
+[1] "k>1, k= 31"
+[1] "here it is"
+[1] "herek"
+[1] 32
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   32.000  -10.800 3623.898    0.000 3838.189
+[1] "k>1, k= 32"
+[1] "here it is"
+[1] "herek"
+[1] 33
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   33.000  -10.820 3618.780    0.000 3822.072
+[1] "k>1, k= 33"
+[1] "here it is"
+[1] "herek"
+[1] 34
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   34.000  -10.840 3614.020    0.000 3806.177
+[1] "k>1, k= 34"
+[1] "here it is"
+[1] "herek"
+[1] 35
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   35.000  -10.859 3612.383    0.000 3800.749
+[1] "k>1, k= 35"
+[1] "here it is"
+[1] "herek"
+[1] 36
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   36.000  -10.878 3612.151    0.000 3797.989
+[1] "k>1, k= 36"
+[1] "here it is"
+[1] "herek"
+[1] 37
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   37.000  -10.897 3610.544    0.000 3789.378
+[1] "k>1, k= 37"
+[1] "here it is"
+[1] "herek"
+[1] 38
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   38.000  -10.915 3603.827    0.000 3767.938
+[1] "k>1, k= 38"
+[1] "here it is"
+[1] "herek"
+[1] 39
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   39.000  -10.933 3602.150    0.000 3758.462
+[1] "k>1, k= 39"
+[1] "here it is"
+[1] "herek"
+[1] 40
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   40.000  -10.951 3602.792    0.000 3757.254
+[1] "k>1, k= 40"
+[1] "here it is"
+[1] "herek"
+[1] 41
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   41.000  -10.968 3606.383    0.000 3766.861
+[1] "k>1, k= 41"
+[1] "here it is"
+[1] "herek"
+[1] 42
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   42.000  -10.985 3607.675    0.000 3769.312
+[1] "k>1, k= 42"
+[1] "here it is"
+[1] "herek"
+[1] 43
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   43.000  -11.002 3611.423    0.000 3781.388
+[1] "k>1, k= 43"
+[1] "here it is"
+[1] "herek"
+[1] 44
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   44.000  -11.019 3612.077    0.000 3782.359
+[1] "k>1, k= 44"
+[1] "here it is"
+[1] "herek"
+[1] 45
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   45.000  -11.035 3611.065    0.000 3781.740
+[1] "k>1, k= 45"
+[1] "here it is"
+[1] "herek"
+[1] 46
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   46.000  -11.051 3616.517    0.000 3803.665
+[1] "k>1, k= 46"
+[1] "here it is"
+[1] "herek"
+[1] 47
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   47.000  -11.067 3613.342    0.000 3800.048
+[1] "k>1, k= 47"
+[1] "here it is"
+[1] "herek"
+[1] 48
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   48.000  -11.082 3553.515    0.001 3582.660
+[1] "k>1, k= 48"
+[1] "here it is"
+[1] "herek"
+[1] 49
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   49.000  -11.097 3459.537    0.001 3073.755
+[1] "k>1, k= 49"
+[1] "here it is"
+[1] "herek"
+[1] 50
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   50.000  -11.112 3361.841    0.002 2517.214
+[1] "k>1, k= 50"
+[1] "here it is"
+[1] "herek"
+[1] 51
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   51.000  -11.127 3191.483    0.010  747.523
+[1] "k>1, k= 51"
+[1] "here it is"
+[1] "herek"
+[1] 52
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   52.000  -11.142 3268.689    0.008 1415.017
+[1] "k>1, k= 52"
+[1] "here it is"
+[1] "herek"
+[1] 53
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   53.000  -11.156 3301.399    0.006 1927.480
+[1] "k>1, k= 53"
+[1] "here it is"
+[1] "herek"
+[1] 54
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   54.000  -11.170 3313.874    0.002 2128.000
+[1] "k>1, k= 54"
+[1] "here it is"
+[1] "herek"
+[1] 55
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   55.000  -11.184 3322.012    0.002 2222.098
+[1] "k>1, k= 55"
+[1] "here it is"
+[1] "herek"
+[1] 56
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   56.000  -11.198 1563.792    0.057  146.063
+[1] "k>1, k= 56"
+[1] "here it is"
+[1] "herek"
+[1] 57
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   57.000  -11.212 2230.567    0.007  589.090
+[1] "k>1, k= 57"
+[1] "here it is"
+[1] "herek"
+[1] 58
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   58.000  -11.225 2375.141    0.004  687.331
+[1] "k>1, k= 58"
+[1] "here it is"
+[1] "herek"
+[1] 59
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   59.000  -11.238 2558.468    0.003  735.331
+[1] "k>1, k= 59"
+[1] "here it is"
+[1] "herek"
+[1] 60
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   60.000  -11.252 3236.629    0.002 1143.711
+[1] "k>1, k= 60"
+[1] "here it is"
+[1] "herek"
+[1] 61
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   61.000  -11.264 2659.404    0.003 1388.991
+[1] "k>1, k= 61"
+[1] "here it is"
+[1] "herek"
+[1] 62
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    62.000   -11.277  6391.827     0.000 10179.192
+[1] "k>1, k= 62"
+[1] "here it is"
+> ##save the results
+> save(output,file='FhN_1Param_IMIS_Shopt_D4.RData')
+> (t=proc.time()[1]-t1)/60
+user.self 
+ 2.719617 
+> proc.time()
+   user  system elapsed 
+166.108  14.628 885.821 
+> 
+> 
+> #run the IMIS-Opt
+> source('IMIS.R')
+> t1=proc.time()
+> output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
+[1] 1
+[1] "10000 likelihoods are evaluated in 1.27 minutes"
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   1.000  -5.527 120.745   0.025  60.284
+[1] "Here 1"
+[1] "important: 920"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.9674991914958"
+[1] "important: 4862"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 12.11016061444"
+[1] "important: 6855"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.8092941101065"
+[1] "important: 849"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.5494086960685"
+[1] "important: 1996"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.440097425856"
+[1] "important: 4305"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.3103326596785"
+[1] "important: 266"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.1846988252197"
+[1] "important: 7425"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 11.0543389159899"
+[1] "important: 9805"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 10.9272270490563"
+[1] "important: 4558"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 10.7948616490607"
+[1] "important: 7433"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 10.4058415070391"
+[1] "important: 5638"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2012166
+[1] "X_imp: 10.2584778621481"
+[1] "Here 3"
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 2
+[1]    2.000   -5.554 5729.725    0.000 8001.610
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 3
+[1]    3.000   -5.554 5917.756    0.000 8584.422
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 4
+[1]    4.000   -5.555 6127.428    0.000 9180.679
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 5
+[1]    5.000   -5.553 6339.898    0.000 9879.309
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] "here 5.1"
+> #save results
+> save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
+> (t=proc.time()-t1)
+   user  system elapsed 
+ 52.305   3.192 270.888 
+> stopCluster(cl)
+> 
+> proc.time()
+    user   system  elapsed 
+ 218.418   17.820 1156.716 
+> 
+> 
+> proc.time()
+    user   system  elapsed 
+ 218.419   17.820 1156.726 

@@ -19,7 +19,7 @@
 #            data                   - data
 #########################################################################################################
 
-IMIS <- function(B, B.re, number_k, D,logging=FALSE,data){
+IMIS <- function(B, B.re, number_k, D,logging=FALSE){
 # Modifications from the original code.
 # Enabled (optional) direct log likelihood/prior calculation
 # Now re-scale the likelihood and prior shifting all values to avoing cases where there is enough data to ensure that the (not logged) prior and/or likelihood of the sampled values is nothing but zeros.
@@ -40,34 +40,24 @@ IMIS <- function(B, B.re, number_k, D,logging=FALSE,data){
 		ptm.like = proc.time()
 		prior_all = c(prior_all, prior(X_k,logs=logging))		# Calculate the prior densities
 #		like_all = c(like_all, likelihood(X_k,data))		# Calculate the likelihoods
-		like_all = c(like_all, likelihood(X_k,logs=logging, data=data))		# Calculate the likelihoods
+		like_all = c(like_all, likelihood(X_k,logs=logging))		# Calculate the likelihoods
 		
 		ptm.use = (proc.time() - ptm.like)[3]
 		if (k==1)	{
 			
 			print(paste(B0, "likelihoods are evaluated in", round(ptm.use/60,2), "minutes"))
+			if (logging){
+				scalingfactor=max(like_all)
+				like_all=like_all-scalingfactor
+				prior_all=prior_all-max(prior_all)
+			}
 		}
-			# if (logging){
-			# #	if (k==1){
-			# 	scalingfactor=max(like_all[which(like_all!=0)], na.rm=T)
-			# 	like_all=like_all-scalingfactor
-			# 	prior_all=prior_all-max(prior_all[which(prior_all!=0)], na.rm=T)
-			# 	# }else{
-			# 	# 	scalingfactor=max(abs(like_all[which(like_all!=0)]), na.rm=T)
-			# 	# 	like_all=like_all-scalingfactor
-			# 	# 	prior_all=prior_all-max(abs(prior_all[which(prior_all!=0)]), na.rm=T)
-			# 	# 	
-			# 	# }
-			# }
-
 		
 		if (logging){
 			
-			if (k==1)	envelop_all = prior_all			# envelop stores the sampling densities
-			if (k>1)	envelop_all = log(apply( rbind(exp(prior_all)*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2)))
-			Weights = exp(prior_all+like_all- envelop_all-max(like_all[which(like_all!=0)], na.rm=T))	# importance weight is determined by the posterior density divided by the sampling density
-	
-			
+			if (k==1)	envelop_all = exp(prior_all)			# envelop stores the sampling densities
+			if (k>1)	envelop_all = apply( rbind(exp(prior_all)*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2))
+			Weights = exp(prior_all+like_all) / envelop_all	# importance weight is determined by the posterior density divided by the sampling density
 			
 		}else{
 			if (k==1)	envelop_all = prior_all			# envelop stores the sampling densities
@@ -102,9 +92,9 @@ IMIS <- function(B, B.re, number_k, D,logging=FALSE,data){
 				which_remain = setdiff(which_remain, which_exclude)
         #posterior = function(theta){	-log(prior(theta))-log(likelihood(theta,data)) } 
 				if (logging){
-					posterior = function(theta){	-prior(theta,logs=logging)-likelihood(theta,logs=logging, data=data) }
+					posterior = function(theta){	-prior(theta,logs=logging)-likelihood(theta,logs=logging) }
 				}else {
-					posterior = function(theta){	-log(prior(theta))-log(likelihood(theta, data=data)) } 
+					posterior = function(theta){	-log(prior(theta))-log(likelihood(theta)) } 
 				}
 				print("here 1.1")
 				if (is.vector(X_all)){	

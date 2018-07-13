@@ -108,7 +108,7 @@ colnames(coefs) = names(x0)
 B=1000
 B.re=10000
 number_k=150
-D=30
+D=4
 parnames = names(pars)
 datamatrix=data
 plots=1
@@ -135,25 +135,25 @@ clusterCall(cl,function(x) {library(deSolve);library(CollocInfer);library(numDer
 clusterExport(cl,varlist=list('IMIS.opt.colloc.3optimizers.general.no.touch.ups','d2negnormdp2',"make.fhn","%dopar%","foreach",'make.SSEproc.FHN',"neglogprior","prior","likelihood",'times',"dnegnormdp",'make.SSElik',"dneglogpriordpar","lokerns","ksLqudratic",'simex.fun.justc','neq','der.fhn.justc','jac.fhn.justc','d2neglogpriordpar2'))
 clusterExport(cl,varlist=ls())
 
-t1=proc.time()[1]
+#t1=proc.time()[1]
 ##run the IMIS-ShOpt algorithm
-output<- IMIS.opt.colloc.3optimizers.general.no.touch.ups(B, B.re, number_k, D,parnames = c("c"),data=data, plots=0, ncoefs=ncoefs, optim.fun1, optim.fun2, optim.fun3,other)
+#output<- IMIS.opt.colloc.3optimizers.general.no.touch.ups(B, B.re, number_k, D,parnames = c("c"),data=data, plots=0, ncoefs=ncoefs, optim.fun1, optim.fun2, optim.fun3,other)
 ##save the results
-save(output,file='FhN_1Param_IMIS_Shopt_D30.RData')
-(t=proc.time()[1]-t1)/60
-proc.time()
+#save(output,file='FhN_1Param_IMIS_Shopt_D30.RData')
+#(t=proc.time()[1]-t1)/60
+#proc.time()
 
 
 #run the IMIS-Opt
-t1=proc.time()[1]
-source('IMIS.R')
-output_IMIS_opt<- IMIS(B, B.re, number_k, D=3,logging=TRUE,data)
+#t1=proc.time()[1]
+#source('IMIS.R')
+##output_IMIS_opt<- IMIS(B, B.re, number_k, D=3,logging=TRUE,data)
 #save results
-save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D3.RData')
-(t=proc.time()[1]-t1)/60
-stopCluster(cl)
+#save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D3.RData')
+#(t=proc.time()[1]-t1)/60
+#stopCluster(cl)
 
-proc.time()
+#proc.time()
 
 
 

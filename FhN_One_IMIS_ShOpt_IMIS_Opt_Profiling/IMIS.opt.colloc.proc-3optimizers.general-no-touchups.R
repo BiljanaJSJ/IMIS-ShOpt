@@ -25,7 +25,7 @@
 #            optimres               - optimization results from the three optimizers
 #            data                   - data
 #########################################################################################################
-IMIS.opt.colloc.3optimizers.general.no.touch.ups <- function(B, B.re, number_k, D,runIndex=1:3,parnames = c("c"),data=data, plots=3, ncoefs=0, optim.fun1, optim.fun2, optim.fun3,other=NULL){
+IMIS.opt.colloc.3optimizers.general.no.touch.ups <- function(B, B.re, number_k, D,runIndex=1:3,parnames = c("c"),data=data, plots=3, ncoefs=0, optim.fun1, optim.fun2, optim.fun3,other=NULL,logging=TRUE){
   B0 = B*10
   #clusterExport(cl,varlist=ls())
   X_all = X_k = sample.prior(B0)				# Draw initial samples from the prior distribution
@@ -58,31 +58,51 @@ IMIS.opt.colloc.3optimizers.general.no.touch.ups <- function(B, B.re, number_k, 
     print(k)
     ptm.like = proc.time()
     
-    prior_all = c(prior_all, prior(X_k))		# Calculate the prior densities
+    #prior_all = c(prior_all, prior(X_k))		# Calculate the prior densities
     
     # In pathological cases the likelihood may need rescaling by a constant. This is to deal with the case where the parameters are really bad.
     # Note that this doesnt change the relative weights which is important.
     
-    like_temp = c(like_temp+like_scaling,likelihood(X_k,logs=TRUE,data=data))  #undo the scaling part (two lines down)
-    like_scaling = max(like_temp,na.rm=TRUE)
-    like_all = exp(like_temp-like_scaling)		# Calculate the likelihoods while removing a constant scaling part.  The like_scaling numerically stabilizes the likelihood and since the impact thereof is applied to all entries, the impact is cancelled out when computing the Weights/sum(Weights) step.
-    if(plots!=0){
-      if(is.matrix(X_all)){plot(X_all[,plots],like_all,main="Like")
-        plot(X_all[,plots],prior_all,main="prior")
-      }else{
-        plot(X_all,like_all,main="Like")
-        plot(X_all,prior_all,main="prior")
-      }
-    }
+    #like_temp = c(like_temp+like_scaling,likelihood(X_k,logs=TRUE,data=data))  #undo the scaling part (two lines down)
+    #like_scaling = max(like_temp,na.rm=TRUE)
+    #like_all = exp(like_temp-like_scaling)		# Calculate the likelihoods while removing a constant scaling part.  The like_scaling numerically stabilizes the likelihood and since the impact thereof is applied to all entries, the impact is cancelled out when computing the Weights/sum(Weights) step.
+    #if(plots!=0){
+    #  if(is.matrix(X_all)){plot(X_all[,plots],like_all,main="Like")
+    #    plot(X_all[,plots],prior_all,main="prior")
+    #  }else{
+    #    plot(X_all,like_all,main="Like")
+    #    plot(X_all,prior_all,main="prior")
+    #  }
+    #}
+    
+
+    prior_all = c(prior_all, prior(X_k,logs=logging))		# Calculate the prior densities
+    like_all = c(like_all, likelihood(X_k,logs=logging,data=data))		# Calculate the likelihoods
+		
     ptm.use = (proc.time() - ptm.like)[3]
+
+
     if (k==1){
       print(paste(B0, "likelihoods are evaluated in", round(ptm.use/60,2), "minutes"))
-      envelop_all = prior_all			# envelop stores the sampling densities
-    }else{
-      envelop_all = apply( rbind(prior_all*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2))
+      # envelop_all = prior_all			# envelop stores the sampling densities
+      #}else{
+      #envelop_all = apply( rbind(prior_all*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2))
     }
+
+                  if (logging){
+			
+			if (k==1)	envelop_all = prior_all			# envelop stores the sampling densities
+			if (k>1)	envelop_all = log(apply( rbind(exp(prior_all)*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2)))
+			Weights = exp(prior_all+like_all-envelop_all-max(like_all[which(!like_all==0)],na.rm=T))	# importance weight is determined by the posterior density divided by the sampling density
+			
+		}else{
+			if (k==1)	envelop_all = prior_all			# envelop stores the sampling densities
+			if (k>1)	envelop_all = apply( rbind(prior_all*B0/B, gaussian_all), 2, sum) / (B0/B+D+(k-2))
+			Weights = prior_all*like_all / envelop_all	# importance weight is determined by the posterior density divided by the sampling density
+		}
+
     
-    Weights = prior_all*like_all / envelop_all	# importance weight is determined by the posterior density divided by the sampling density
+    #Weights = prior_all*like_all / envelop_all	# importance weight is determined by the posterior density divided by the sampling density
     Weights[which(is.na(Weights) | is.nan(Weights) | (Weights %in% c(-Inf,Inf) )) ]=0
     Weights = Weights / sum(Weights,na.rm=TRUE)	
     stat_all[1,k] = log(mean(Weights,na.rm=TRUE))			# the raw marginal likelihood
@@ -113,7 +133,7 @@ IMIS.opt.colloc.3optimizers.general.no.touch.ups <- function(B, B.re, number_k, 
       
       i=1
       ############################################ WHILE LOOP OVER THE i ###############	
-      while(length(which_remain)>0 & i<=D/3){
+      while(length(which_remain)>0 & i<=D){
         #	for (i in 1:D){
         print("herei")
         print(i)

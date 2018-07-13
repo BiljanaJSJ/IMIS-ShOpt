@@ -108,7 +108,7 @@ colnames(coefs) = names(x0)
 B=1000
 B.re=10000
 number_k=150
-D=30
+D=4
 parnames = names(pars)
 datamatrix=data
 plots=1
@@ -139,19 +139,19 @@ t1=proc.time()[1]
 ##run the IMIS-ShOpt algorithm
 output<- IMIS.opt.colloc.3optimizers.general.no.touch.ups(B, B.re, number_k, D,parnames = c("c"),data=data, plots=0, ncoefs=ncoefs, optim.fun1, optim.fun2, optim.fun3,other)
 ##save the results
-save(output,file='FhN_1Param_IMIS_Shopt_D30.RData')
+save(output,file='FhN_1Param_IMIS_Shopt_D4.RData')
 (t=proc.time()[1]-t1)/60
 proc.time()
 
 
-#run the IMIS-Opt
-source('IMIS.R')
-t1=proc.time()
-output_IMIS_opt<- IMIS(B, B.re, number_k, D=10,logging=TRUE,data)
-#save results
-save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D3.RData')
-(t=proc.time()-t1)
-stopCluster(cl)
+##run the IMIS-Opt
+#source('IMIS.R')
+#t1=proc.time()
+#output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
+##save results
+#save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
+#(t=proc.time()-t1)
+#stopCluster(cl)
 
 proc.time()
 

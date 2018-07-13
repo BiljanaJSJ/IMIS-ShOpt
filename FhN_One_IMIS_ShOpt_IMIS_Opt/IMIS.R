@@ -44,11 +44,7 @@ IMIS <- function(B, B.re, number_k, D,logging=FALSE,data){
 		if (k==1)	{
 			
 			print(paste(B0, "likelihoods are evaluated in", round(ptm.use/60,2), "minutes"))
-			#if (logging){
-			#	scalingfactor=max(like_all)
-			#	like_all=like_all-scalingfactor
-			#	prior_all=prior_all-max(prior_all)
-			#}
+		
 		}
 		
 		if (logging){

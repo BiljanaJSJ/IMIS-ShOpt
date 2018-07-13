@@ -3,7 +3,7 @@
 #################################################################
 #setwd('D:/Publications/IMIS-ShOpt/incremental-mixture-importance-submitted/codeSubmit/codeSubmit/FhN_One_IMIS_ShOpt_IMIS_Opt')
 rm(list = ls(all = TRUE))
-setwd('E:/IMISCode/codeSubmit_keep_all_files/FhN_One_IMIS_ShOpt_IMIS_Opt')
+#setwd('E:/IMISCode/codeSubmit_keep_all_files/FhN_One_IMIS_ShOpt_IMIS_Opt')
 source("Two-stage-FhN-just-c-with-prior.R")                         # 2-stage functions
 source("IMIS.opt.colloc.proc-3optimizers.general-no-touchups.R")    # General IMIS 3 optimizers function 
 source("fhn-model-set-up-x0proc-just-c.R")                          # likelihood etc...
@@ -15,9 +15,9 @@ library(doParallel)
 library(CollocInfer)
 
 
-output_fullModel=get(load('F:/IMISCode/codeSubmit_keep_all_files/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D30.RData'))
-output_1parModelIMIS_shOpt=get(load('FhN_1Param_IMIS_Shopt_D30.RData'))
-output_IMIS_opt=get(load('FhN_1Param_IMIS_Opt_D3.RData'))
+output_fullModel=get(load('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_12/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
+output_1parModelIMIS_shOpt=get(load('FhN_1Param_IMIS_Shopt_D4.RData'))
+output_IMIS_opt=get(load('FhN_1Param_IMIS_Opt_D12.RData'))
                           
 
 #get solution and the data around c=mean(output_IMIS_opt$resample)
@@ -36,7 +36,7 @@ y=output_IMIS_opt$data
 cl <- makeCluster(4)
 registerDoParallel(cl)
 clusterCall(cl,function(x) {library(deSolve);library(CollocInfer);library(numDeriv);library(lokern)})
-clusterExport(cl,varlist=list('IMIS.opt.colloc.3optimizers.general.no.touch.ups','d2negnormdp2',"make.fhn","%dopar%","foreach",'make.SSEproc.FHN',"neglogprior","neglogpriorx0","prior","likelihood",'times',"dnegnormdp",'make.SSElik',"dneglogpriordpar","lokerns","ksLqudratic",'simex.fun.justc','neq','der.fhn.justc','jac.fhn.justc','d2neglogpriordpar2'))
+clusterExport(cl,varlist=list('IMIS.opt.colloc.3optimizers.general.no.touch.ups','d2negnormdp2',"make.fhn","%dopar%","foreach",'make.SSEproc.FHN',"neglogprior","prior","likelihood",'times',"dnegnormdp",'make.SSElik',"dneglogpriordpar","lokerns","ksLqudratic",'simex.fun.justc','neq','der.fhn.justc','jac.fhn.justc','d2neglogpriordpar2'))
 clusterExport(cl,varlist=ls())
 
 #output_IMIS_opt$data=data
@@ -140,22 +140,22 @@ dev.off()
 #caclulate KL divergence
 
 library(flexmix)
-#evaluate the density of IMIS-ShOpt samples over the interval [2.5,3.5]
-#use marginal likelihood obtained from the IMIS-ShOpt as normalizing constant
+##evaluate the density of IMIS-ShOpt samples over the interval [2.5,3.5]
+##use marginal likelihood obtained from the IMIS-ShOpt as normalizing constant
 dsamples=density(output_1parModelIMIS_shOpt$resample, from=2.5, to=3.5)
 normalizedsamples=dsamples$y/exp(output_1parModelIMIS_shOpt$stat[2,1])
 
-#evaluate the theoretical density over the same interval
+##evaluate the theoretical density over the same interval
 cgrid=seq(2.5,3.5,length=length(dsamples$y))
 logpost=sapply(cgrid,function(x) {prior(x,logs=TRUE)+likelihood(x,logs=TRUE,data=output_IMIS_opt$data)})
 
-#numerically integrate the target posterior to obtain the normalizing constant
+##numerically integrate the target posterior to obtain the normalizing constant
 normconstintegrand <- function(x) {exp(prior(x,logs=TRUE)+likelihood(x,logs=TRUE,data=output_IMIS_opt$data))}
 normconst=integrate(normconstintegrand,lower=2.5,upper=3.5)
 norm_post=exp(logpost)/normconst$value
 
 
-stopCluster(cl)
+#stopCluster(cl)
 
 
 plot(cgrid,norm_post)
@@ -170,7 +170,9 @@ plot(cgrid,norm_post)
 KLdiv(cbind(norm_post,normalizedsamples))
 
 
-
+# norm_post normalizedsamples
+# norm_post         0.00000000        0.07526725
+# normalizedsamples 0.07500949        0.00000000
 
 
 PlotsResampledTraj=function(times=seq(0,20,0.2),output,title,filename){
@@ -227,25 +229,22 @@ setEPS()
 postscript("FIG9.eps",horizontal=FALSE, paper="special",height=18,width=24, colormodel = "cmyk", 
            family = "Helvetica")
 
-par(mfrow=c(1,1),mar=rep(5,4))
-h1=hist(output_1parModelIMIS_shOpt$X_all[1:10000],breaks=50,plot=F)
+par(mfrow=c(1,1),mar=rep(6,4))
+h1=hist(output_1parModelIMIS_shOpt$X_all[1:10000],breaks=35,plot=F)
 h1$counts=h1$counts/sum(h1$counts)
-h2=hist(output_1parModelIMIS_shOpt$X_all[10001:40000],breaks=30,plot=F)
+h2=hist(output_1parModelIMIS_shOpt$X_all[10001:19000],breaks=15,plot=F)
 h2$counts=h2$counts/sum(h2$counts)
 rangey=max(range(h1$counts)[2],range(h2$counts)[2])
 
 
 plot(h1,main='Importance sampling distribution at the end of the Shotgun optimization stage',xlab='c',ylab='Density', xlim=c(0,20),ylim=c(0,rangey),col='coral3',cex.main=3,cex.lab=2.5,cex.axis=2.5,mgp=c(3.5,1.5,0))
-points(output_1parModelIMIS_shOpt$center[1],0,col='red',pch=21,bg=2,cex=3)
 par(new=T)
-plot(h2,main='',xlab='',ylab='',  xlim=c(0,20),ylim=c(0,rangey),cex.main=2,cex.lab=2.5,cex.axis=2.5,col='darkcyan',mgp=c(3.5,1.5,0))
-points(output_1parModelIMIS_shOpt$center[2],0,col='darkcyan',pch=16,bg=2,cex=3)
-points(output_1parModelIMIS_shOpt$center[3],0,col='darkcyan',pch=16,bg=2,cex=3)
+plot(h2,main='',xlab='',ylab='',  xlim=c(0,20),ylim=c(0,rangey),cex.main=3,cex.lab=2.5,cex.axis=2.5,col='darkcyan',mgp=c(3.5,1.5,0))
+points(output_1parModelIMIS_shOpt$center[2],0,col='red',pch=16,bg=2,cex=5)
+points(output_1parModelIMIS_shOpt$center[3],0,col='red',pch=16,bg=2,cex=5)
+points(output_1parModelIMIS_shOpt$center[1],0,col='red',pch=21,bg=2,cex=5)
+points(output_1parModelIMIS_shOpt$center[7],0,col='red',pch=21,bg=2,cex=5)
 lines(density(output_1parModelIMIS_shOpt$resample)$x,density(output_1parModelIMIS_shOpt$resample)$y/245,col='red',lwd=10);
-#hist(output_1parModelIMIS_shOpt$resample,col='red', add=T, nbins=10);
-text(13,0.47,'NLS, GP',cex=3,col='darkcyan')
-text(3,0.25,'Two-Stage',cex=3,col='darkcyan')
-text(17,0.13,'Initial \nimportance sampling \ndistribution',cex=3,col='coral3')
 
 dev.off()
 
