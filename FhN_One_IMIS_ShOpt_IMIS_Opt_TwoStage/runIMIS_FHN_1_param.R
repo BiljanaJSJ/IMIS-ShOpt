@@ -105,7 +105,7 @@ colnames(coefs) = names(x0)
 #system.  The third parameter is the one to manipulate
 #names(spars)=c("c")
 
-B=1000
+B=100
 B.re=10000
 number_k=150
 D=4

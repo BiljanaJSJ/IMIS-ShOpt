@@ -1,5 +1,5 @@
 
-R version 3.5.0 (2018-04-23) -- "Joy in Playing"
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
 Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-redhat-linux-gnu (64-bit)
 
@@ -140,7 +140,7 @@ Loading required package: parallel
 > #system.  The third parameter is the one to manipulate
 > #names(spars)=c("c")
 > 
-> B=1000
+> B=100
 > B.re=10000
 > number_k=150
 > D=4
@@ -195,99 +195,1216 @@ Loading required package: parallel
 > output<- IMIS.opt.colloc.3optimizers.general.no.touch.ups(B, B.re, number_k, D,parnames = c("c"),data=data, plots=0, ncoefs=ncoefs, optim.fun1, optim.fun2, optim.fun3,other)
 [1] "herek"
 [1] 1
-[1] "10000 likelihoods are evaluated in 0.78 minutes"
+[1] "1000 likelihoods are evaluated in 0.11 minutes"
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]   1.000  -9.210 133.803   0.026  59.348
+[1]  1.000 -6.908 14.476  0.172  7.837
 [1] "Here 1"
 [1] "herei"
 [1] 1
 [1] "i= 1"
-[1] "optimization starting from a value of  11.970185743683"
-[1] "standard optimizer  11.970185743683"
-[1] "next step smoothing based optimizer   2.99925255844068"
-[1] "2 step based optimizer   2.99925273501645"
+[1] "optimization starting from a value of  11.9686153270786"
+[1] "standard optimizer  11.9686153270786"
+[1] "next step smoothing based optimizer   2.99877831608491"
+[1] "2 step based optimizer   2.99877764575885"
 [1] "herei"
 [1] 2
 [1] "i= 2"
-[1] "optimization starting from a value of  11.5729192911283"
-[1] "standard optimizer  11.5729192911283"
-[1] "next step smoothing based optimizer   2.99925256135694"
-[1] "2 step based optimizer   2.99925165892257"
+[1] "optimization starting from a value of  11.5968325090904"
+[1] "standard optimizer  11.5968325090904"
+[1] "next step smoothing based optimizer   2.99877690611329"
+[1] "2 step based optimizer   2.99877690608163"
 [1] "herei"
 [1] 3
 [1] "i= 3"
-[1] "optimization starting from a value of  12.7006719218379"
-[1] "standard optimizer  12.7006719218379"
-[1] "next step smoothing based optimizer   2.99925254909853"
-[1] "2 step based optimizer   2.99925077981912"
+[1] "optimization starting from a value of  12.7375837383352"
+[1] "standard optimizer  11.9706392420381"
+[1] "next step smoothing based optimizer   2.99877691596341"
+[1] "2 step based optimizer   2.99877760566249"
 [1] "Here 3"
 [1] "here it is"
 [1] "herek"
 [1] 2
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    2.000   -9.852 4866.895    0.000 5999.968
+[1]   2.000  -7.550 600.000   0.002 599.996
 [1] "k>1, k= 2"
 [1] "here it is"
 [1] "herek"
 [1] 3
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    3.000   -9.903 5006.830    0.000 6258.016
+[1]   3.000  -7.601 643.072   0.002 616.804
 [1] "k>1, k= 3"
 [1] "here it is"
 [1] "herek"
 [1] 4
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    4.000   -9.952 5270.495    0.000 6709.432
+[1]   4.000  -7.650 701.538   0.002 648.400
 [1] "k>1, k= 4"
 [1] "here it is"
 [1] "herek"
 [1] 5
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    5.000   -9.999 5470.015    0.000 7052.028
+[1]   5.000  -7.696 801.295   0.002 684.559
 [1] "k>1, k= 5"
 [1] "here it is"
 [1] "herek"
 [1] 6
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    6.000  -10.043 5768.769    0.000 7761.912
+[1]   6.000  -7.741 901.365   0.002 741.056
 [1] "k>1, k= 6"
 [1] "here it is"
 [1] "herek"
 [1] 7
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    7.000  -10.086 6074.477    0.000 8664.208
+[1]    7.000   -7.783 1001.555    0.002  814.864
 [1] "k>1, k= 7"
 [1] "here it is"
 [1] "herek"
 [1] 8
 [1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
-[1]    8.000  -10.127 6380.040    0.000 9805.174
+[1]    8.000   -7.824 1101.501    0.002  909.516
 [1] "k>1, k= 8"
+[1] "here it is"
+[1] "herek"
+[1] 9
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]    9.000   -7.863 1201.591    0.002 1035.553
+[1] "k>1, k= 9"
+[1] "here it is"
+[1] "herek"
+[1] 10
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   10.000   -7.901 1301.028    0.002 1145.369
+[1] "k>1, k= 10"
+[1] "here it is"
+[1] "herek"
+[1] 11
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   11.000   -7.937 1400.524    0.001 1286.004
+[1] "k>1, k= 11"
+[1] "here it is"
+[1] "herek"
+[1] 12
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   12.000   -7.972 1492.486    0.001 1337.873
+[1] "k>1, k= 12"
+[1] "here it is"
+[1] "herek"
+[1] 13
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   13.000   -8.006 1589.493    0.001 1420.278
+[1] "k>1, k= 13"
+[1] "here it is"
+[1] "herek"
+[1] 14
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   14.000   -8.039 1685.971    0.001 1507.761
+[1] "k>1, k= 14"
+[1] "here it is"
+[1] "herek"
+[1] 15
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   15.000   -8.071 1771.095    0.001 1556.412
+[1] "k>1, k= 15"
+[1] "here it is"
+[1] "herek"
+[1] 16
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   16.000   -8.102 1867.568    0.001 1660.063
+[1] "k>1, k= 16"
+[1] "here it is"
+[1] "herek"
+[1] 17
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   17.000   -8.132 1963.609    0.001 1775.233
+[1] "k>1, k= 17"
+[1] "here it is"
+[1] "herek"
+[1] 18
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   18.000   -8.161 2057.168    0.001 1871.552
+[1] "k>1, k= 18"
+[1] "here it is"
+[1] "herek"
+[1] 19
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   19.000   -8.189 2151.210    0.001 1983.334
+[1] "k>1, k= 19"
+[1] "here it is"
+[1] "herek"
+[1] 20
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   20.000   -8.216 2241.386    0.001 2068.539
+[1] "k>1, k= 20"
+[1] "here it is"
+[1] "herek"
+[1] 21
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   21.000   -8.243 2332.280    0.001 2168.012
+[1] "k>1, k= 21"
+[1] "here it is"
+[1] "herek"
+[1] 22
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   22.000   -8.269 2421.857    0.001 2264.666
+[1] "k>1, k= 22"
+[1] "here it is"
+[1] "herek"
+[1] 23
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   23.000   -8.294 2510.455    0.001 2373.093
+[1] "k>1, k= 23"
+[1] "here it is"
+[1] "herek"
+[1] 24
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   24.000   -8.319 2595.624    0.001 2470.121
+[1] "k>1, k= 24"
+[1] "here it is"
+[1] "herek"
+[1] 25
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   25.000   -8.343 2677.647    0.001 2552.841
+[1] "k>1, k= 25"
+[1] "here it is"
+[1] "herek"
+[1] 26
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   26.000   -8.366 2759.549    0.001 2642.793
+[1] "k>1, k= 26"
+[1] "here it is"
+[1] "herek"
+[1] 27
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   27.000   -8.389 2839.722    0.001 2733.149
+[1] "k>1, k= 27"
+[1] "here it is"
+[1] "herek"
+[1] 28
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   28.000   -8.412 2919.852    0.001 2826.005
+[1] "k>1, k= 28"
+[1] "here it is"
+[1] "herek"
+[1] 29
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   29.000   -8.434 3001.373    0.001 2928.182
+[1] "k>1, k= 29"
+[1] "here it is"
+[1] "herek"
+[1] 30
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   30.000   -8.455 3077.980    0.001 3014.522
+[1] "k>1, k= 30"
+[1] "here it is"
+[1] "herek"
+[1] 31
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   31.000   -8.476 3153.539    0.001 3097.911
+[1] "k>1, k= 31"
+[1] "here it is"
+[1] "herek"
+[1] 32
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   32.000   -8.497 3229.747    0.001 3191.464
+[1] "k>1, k= 32"
+[1] "here it is"
+[1] "herek"
+[1] 33
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   33.000   -8.517 3303.380    0.001 3281.713
+[1] "k>1, k= 33"
+[1] "here it is"
+[1] "herek"
+[1] 34
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   34.000   -8.537 3376.817    0.001 3378.849
+[1] "k>1, k= 34"
+[1] "here it is"
+[1] "herek"
+[1] 35
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   35.000   -8.556 3447.623    0.001 3469.778
+[1] "k>1, k= 35"
+[1] "here it is"
+[1] "herek"
+[1] 36
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   36.000   -8.575 3519.795    0.001 3567.789
+[1] "k>1, k= 36"
+[1] "here it is"
+[1] "herek"
+[1] 37
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   37.000   -8.594 3590.757    0.001 3668.989
+[1] "k>1, k= 37"
+[1] "here it is"
+[1] "herek"
+[1] 38
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   38.000   -8.613 3662.783    0.000 3777.936
+[1] "k>1, k= 38"
+[1] "here it is"
+[1] "herek"
+[1] 39
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   39.000   -8.631 3716.115    0.000 3842.936
+[1] "k>1, k= 39"
+[1] "here it is"
+[1] "herek"
+[1] 40
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   40.000   -8.648 3780.518    0.000 3931.672
+[1] "k>1, k= 40"
+[1] "here it is"
+[1] "herek"
+[1] 41
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   41.000   -8.666 3847.390    0.000 4037.772
+[1] "k>1, k= 41"
+[1] "here it is"
+[1] "herek"
+[1] 42
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   42.000   -8.683 3912.625    0.000 4136.026
+[1] "k>1, k= 42"
+[1] "here it is"
+[1] "herek"
+[1] 43
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   43.00   -8.70 3970.84    0.00 4216.68
+[1] "k>1, k= 43"
+[1] "here it is"
+[1] "herek"
+[1] 44
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   44.000   -8.716 4032.958    0.000 4312.019
+[1] "k>1, k= 44"
+[1] "here it is"
+[1] "herek"
+[1] 45
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   45.000   -8.732 4089.069    0.000 4389.860
+[1] "k>1, k= 45"
+[1] "here it is"
+[1] "herek"
+[1] 46
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   46.000   -8.748 4147.373    0.000 4479.374
+[1] "k>1, k= 46"
+[1] "here it is"
+[1] "herek"
+[1] 47
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   47.000   -8.764 4204.734    0.000 4569.256
+[1] "k>1, k= 47"
+[1] "here it is"
+[1] "herek"
+[1] 48
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   48.000   -8.780 4258.523    0.000 4650.163
+[1] "k>1, k= 48"
+[1] "here it is"
+[1] "herek"
+[1] 49
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   49.000   -8.795 4314.638    0.000 4740.562
+[1] "k>1, k= 49"
+[1] "here it is"
+[1] "herek"
+[1] 50
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   50.000   -8.810 4364.939    0.000 4818.827
+[1] "k>1, k= 50"
+[1] "here it is"
+[1] "herek"
+[1] 51
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   51.000   -8.825 4420.644    0.000 4915.233
+[1] "k>1, k= 51"
+[1] "here it is"
+[1] "herek"
+[1] 52
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   52.000   -8.839 4474.720    0.000 5010.153
+[1] "k>1, k= 52"
+[1] "here it is"
+[1] "herek"
+[1] 53
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   53.000   -8.854 4531.983    0.000 5120.175
+[1] "k>1, k= 53"
+[1] "here it is"
+[1] "herek"
+[1] 54
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   54.000   -8.868 4586.003    0.000 5223.193
+[1] "k>1, k= 54"
+[1] "here it is"
+[1] "herek"
+[1] 55
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   55.000   -8.882 4640.886    0.000 5333.606
+[1] "k>1, k= 55"
+[1] "here it is"
+[1] "herek"
+[1] 56
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   56.000   -8.896 4692.712    0.000 5431.876
+[1] "k>1, k= 56"
+[1] "here it is"
+[1] "herek"
+[1] 57
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   57.000   -8.909 4744.834    0.000 5536.485
+[1] "k>1, k= 57"
+[1] "here it is"
+[1] "herek"
+[1] 58
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   58.000   -8.923 4778.506    0.000 5593.105
+[1] "k>1, k= 58"
+[1] "here it is"
+[1] "herek"
+[1] 59
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   59.000   -8.936 4827.580    0.000 5690.346
+[1] "k>1, k= 59"
+[1] "here it is"
+[1] "herek"
+[1] 60
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   60.000   -8.949 4877.082    0.000 5794.250
+[1] "k>1, k= 60"
+[1] "here it is"
+[1] "herek"
+[1] 61
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   61.000   -8.962 4926.136    0.000 5899.633
+[1] "k>1, k= 61"
+[1] "here it is"
+[1] "herek"
+[1] 62
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   62.000   -8.975 4972.898    0.000 6001.833
+[1] "k>1, k= 62"
+[1] "here it is"
+[1] "herek"
+[1] 63
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   63.000   -8.987 5018.978    0.000 6104.346
+[1] "k>1, k= 63"
+[1] "here it is"
+[1] "herek"
+[1] 64
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   64.000   -9.000 5063.365    0.000 6201.724
+[1] "k>1, k= 64"
+[1] "here it is"
+[1] "herek"
+[1] 65
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   65.000   -9.012 5102.670    0.000 6281.341
+[1] "k>1, k= 65"
+[1] "here it is"
+[1] "herek"
+[1] 66
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   66.000   -9.024 5144.323    0.000 6371.294
+[1] "k>1, k= 66"
+[1] "here it is"
+[1] "herek"
+[1] 67
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   67.000   -9.036 5185.720    0.000 6462.635
+[1] "k>1, k= 67"
+[1] "here it is"
+[1] "herek"
+[1] 68
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   68.000   -9.048 5226.036    0.000 6554.683
+[1] "k>1, k= 68"
+[1] "here it is"
+[1] "herek"
+[1] 69
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   69.000   -9.060 5268.123    0.000 6653.719
+[1] "k>1, k= 69"
+[1] "here it is"
+[1] "herek"
+[1] 70
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   70.000   -9.071 5307.385    0.000 6745.722
+[1] "k>1, k= 70"
+[1] "here it is"
+[1] "herek"
+[1] 71
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   71.000   -9.083 5344.016    0.000 6829.486
+[1] "k>1, k= 71"
+[1] "here it is"
+[1] "herek"
+[1] 72
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   72.000   -9.094 5384.036    0.000 6929.543
+[1] "k>1, k= 72"
+[1] "here it is"
+[1] "herek"
+[1] 73
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   73.000   -9.105 5420.211    0.000 7018.049
+[1] "k>1, k= 73"
+[1] "here it is"
+[1] "herek"
+[1] 74
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   74.000   -9.116 5455.458    0.000 7101.097
+[1] "k>1, k= 74"
+[1] "here it is"
+[1] "herek"
+[1] 75
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   75.000   -9.127 5492.764    0.000 7195.922
+[1] "k>1, k= 75"
+[1] "here it is"
+[1] "herek"
+[1] 76
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   76.000   -9.138 5528.198    0.000 7287.453
+[1] "k>1, k= 76"
+[1] "here it is"
+[1] "herek"
+[1] 77
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   77.000   -9.148 5562.509    0.000 7374.196
+[1] "k>1, k= 77"
+[1] "here it is"
+[1] "herek"
+[1] 78
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   78.000   -9.159 5597.866    0.000 7468.078
+[1] "k>1, k= 78"
+[1] "here it is"
+[1] "herek"
+[1] 79
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   79.000   -9.170 5632.025    0.000 7559.136
+[1] "k>1, k= 79"
+[1] "here it is"
+[1] "herek"
+[1] 80
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   80.000   -9.180 5662.615    0.000 7637.202
+[1] "k>1, k= 80"
+[1] "here it is"
+[1] "herek"
+[1] 81
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   81.000   -9.190 5697.595    0.000 7735.954
+[1] "k>1, k= 81"
+[1] "here it is"
+[1] "herek"
+[1] 82
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   82.000   -9.200 5728.207    0.000 7817.369
+[1] "k>1, k= 82"
+[1] "here it is"
+[1] "herek"
+[1] 83
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   83.000   -9.210 5760.045    0.000 7906.820
+[1] "k>1, k= 83"
+[1] "here it is"
+[1] "herek"
+[1] 84
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   84.000   -9.220 5792.885    0.000 8003.580
+[1] "k>1, k= 84"
+[1] "here it is"
+[1] "herek"
+[1] 85
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   85.000   -9.230 5825.993    0.000 8102.202
+[1] "k>1, k= 85"
+[1] "here it is"
+[1] "herek"
+[1] 86
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   86.000   -9.240 5856.014    0.000 8191.151
+[1] "k>1, k= 86"
+[1] "here it is"
+[1] "herek"
+[1] 87
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   87.000   -9.250 5885.468    0.000 8278.233
+[1] "k>1, k= 87"
+[1] "here it is"
+[1] "herek"
+[1] 88
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   88.000   -9.259 5914.371    0.000 8364.013
+[1] "k>1, k= 88"
+[1] "here it is"
+[1] "herek"
+[1] 89
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   89.000   -9.269 5946.487    0.000 8467.007
+[1] "k>1, k= 89"
+[1] "here it is"
+[1] "herek"
+[1] 90
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   90.000   -9.278 5974.365    0.000 8553.700
+[1] "k>1, k= 90"
+[1] "here it is"
+[1] "herek"
+[1] 91
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   91.000   -9.287 6004.568    0.000 8652.208
+[1] "k>1, k= 91"
+[1] "here it is"
+[1] "herek"
+[1] 92
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   92.000   -9.297 6034.969    0.000 8753.531
+[1] "k>1, k= 92"
+[1] "here it is"
+[1] "herek"
+[1] 93
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   93.000   -9.306 6061.328    0.000 8837.265
+[1] "k>1, k= 93"
+[1] "here it is"
+[1] "herek"
+[1] 94
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   94.000   -9.315 6090.562    0.000 8937.636
+[1] "k>1, k= 94"
+[1] "here it is"
+[1] "herek"
+[1] 95
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   95.000   -9.324 6119.325    0.000 9036.792
+[1] "k>1, k= 95"
+[1] "here it is"
+[1] "herek"
+[1] 96
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   96.000   -9.333 6149.388    0.000 9143.918
+[1] "k>1, k= 96"
+[1] "here it is"
+[1] "herek"
+[1] 97
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   97.000   -9.341 6176.786    0.000 9239.963
+[1] "k>1, k= 97"
+[1] "here it is"
+[1] "herek"
+[1] 98
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   98.000   -9.350 6204.337    0.000 9340.922
+[1] "k>1, k= 98"
+[1] "here it is"
+[1] "herek"
+[1] 99
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]   99.000   -9.359 6232.148    0.000 9443.854
+[1] "k>1, k= 99"
+[1] "here it is"
+[1] "herek"
+[1] 100
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]  100.000   -9.367 6260.202    0.000 9549.664
+[1] "k>1, k= 100"
+[1] "here it is"
+[1] "herek"
+[1] 101
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]  101.000   -9.376 6286.686    0.000 9649.117
+[1] "k>1, k= 101"
+[1] "here it is"
+[1] "herek"
+[1] 102
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]  102.000   -9.384 6310.523    0.000 9736.044
+[1] "k>1, k= 102"
+[1] "here it is"
+[1] "herek"
+[1] 103
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]  103.000   -9.393 6332.876    0.000 9817.465
+[1] "k>1, k= 103"
 [1] "here it is"
 > ##save the results
 > save(output,file='FhN_1Param_IMIS_Shopt_D4.RData')
 > (t=proc.time()[1]-t1)/60
 user.self 
-0.5690333 
+ 1.043417 
 > proc.time()
    user  system elapsed 
- 37.299   3.738 366.808 
+ 67.146   3.379 358.097 
 > 
 > 
 > ##run the IMIS-Opt
-> #source('IMIS.R')
-> #t1=proc.time()
-> #output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
-> ##save results
-> #save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
-> #(t=proc.time()-t1)
+> source('IMIS.R')
+> t1=proc.time()
+> output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
+[1] 1
+[1] "1000 likelihoods are evaluated in 0.08 minutes"
+[1] "Stage   MargLike   UniquePoint   MaxWeight   ESS"
+[1]  1.000 -6.619 10.536  0.749  1.723
+[1] "Here 1"
+[1] "important: 461"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.9772209027687"
+[1] "important: 968"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 12.1365387571342"
+[1] "important: 160"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.6933848453222"
+[1] "important: 178"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.5731266725397"
+[1] "important: 142"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.4413432183776"
+[1] "important: 446"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.3000918590145"
+[1] "important: 154"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 11.1885714262364"
+[1] "important: 135"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 10.964743970797"
+[1] "important: 339"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 10.8771782082738"
+[1] "important: 826"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 10.8496417707262"
+[1] "important: 996"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 10.36536207393"
+[1] "important: 811"
+[1] "here 1.1"
+[1] "Here 2"
+[1] 0.2035924
+[1] "X_imp: 10.3558400081283"
+[1] "Here 3"
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 2
+[1]    2.000   -5.534 1008.129    0.002  980.473
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 3
+[1]    3.000   -5.543 1091.446    0.001 1058.185
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 4
+[1]    4.000   -5.548 1189.219    0.001 1112.664
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 5
+[1]    5.000   -5.546 1287.615    0.001 1179.062
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 6
+[1]    6.000   -5.546 1386.041    0.001 1255.889
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 7
+[1]    7.000   -5.548 1484.285    0.001 1338.159
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 8
+[1]    8.000   -5.548 1582.432    0.001 1428.853
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 9
+[1]    9.000   -5.545 1680.935    0.001 1539.683
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 10
+[1]   10.000   -5.551 1778.451    0.001 1649.251
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 11
+[1]   11.000   -5.548 1875.234    0.001 1759.005
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 12
+[1]   12.000   -5.552 1968.741    0.001 1844.699
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 13
+[1]   13.000   -5.548 2063.784    0.001 1951.715
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 14
+[1]   14.000   -5.545 2158.641    0.001 2059.910
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 15
+[1]   15.000   -5.543 2252.688    0.001 2169.214
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 16
+[1]   16.000   -5.535 2345.862    0.001 2278.137
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 17
+[1]   17.000   -5.533 2429.632    0.001 2357.664
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 18
+[1]   18.000   -5.534 2520.343    0.001 2468.651
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 19
+[1]   19.000   -5.534 2609.827    0.001 2580.582
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 20
+[1]   20.000   -5.542 2698.288    0.000 2705.586
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 21
+[1]   21.000   -5.544 2764.936    0.000 2752.705
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 22
+[1]   22.000   -5.544 2845.505    0.000 2834.364
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 23
+[1]   23.000   -5.545 2922.094    0.000 2908.518
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 24
+[1]   24.000   -5.544 3001.178    0.000 2993.729
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 25
+[1]   25.000   -5.545 3076.937    0.000 3072.388
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 26
+[1]   26.000   -5.544 3155.070    0.000 3163.168
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 27
+[1]   27.000   -5.543 3233.634    0.000 3261.742
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 28
+[1]   28.000   -5.543 3309.329    0.000 3353.762
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 29
+[1]   29.000   -5.539 3383.359    0.000 3443.190
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 30
+[1]   30.000   -5.539 3456.511    0.000 3534.982
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 31
+[1]   31.000   -5.540 3528.710    0.000 3630.112
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 32
+[1]   32.000   -5.541 3600.893    0.000 3731.224
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 33
+[1]   33.000   -5.542 3674.025    0.000 3840.311
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 34
+[1]   34.000   -5.542 3747.351    0.000 3957.949
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 35
+[1]   35.000   -5.543 3818.900    0.000 4071.585
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 36
+[1]   36.000   -5.542 3888.685    0.000 4183.052
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 37
+[1]   37.000   -5.539 3953.565    0.000 4279.534
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 38
+[1]   38.000   -5.539 4017.703    0.000 4377.340
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 39
+[1]   39.000   -5.538 4081.705    0.000 4480.694
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 40
+[1]   40.000   -5.537 4143.861    0.000 4581.261
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 41
+[1]   41.000   -5.538 4201.018    0.000 4667.292
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 42
+[1]   42.000   -5.537 4262.603    0.000 4773.709
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 43
+[1]   43.000   -5.539 4321.009    0.000 4872.569
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 44
+[1]   44.000   -5.539 4376.955    0.000 4965.993
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 45
+[1]   45.000   -5.538 4432.197    0.000 5058.448
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 46
+[1]   46.000   -5.538 4487.429    0.000 5155.382
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 47
+[1]   47.000   -5.536 4539.551    0.000 5243.761
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 48
+[1]   48.000   -5.534 4563.017    0.000 5280.147
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 49
+[1]   49.000   -5.535 4615.160    0.000 5375.098
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 50
+[1]   50.000   -5.534 4669.700    0.000 5482.584
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 51
+[1]   51.000   -5.537 4718.655    0.000 5574.006
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 52
+[1]   52.000   -5.537 4769.328    0.000 5672.637
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 53
+[1]   53.000   -5.537 4819.119    0.000 5771.507
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 54
+[1]   54.000   -5.538 4867.347    0.000 5869.094
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 55
+[1]   55.000   -5.540 4918.268    0.000 5981.760
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 56
+[1]   56.000   -5.539 4964.885    0.000 6077.402
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 57
+[1]   57.000   -5.539 5009.918    0.000 6170.754
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 58
+[1]   58.000   -5.540 5055.515    0.000 6270.785
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 59
+[1]   59.000   -5.541 5099.639    0.000 6366.558
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 60
+[1]   60.000   -5.542 5143.559    0.000 6466.807
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 61
+[1]   61.000   -5.543 5186.649    0.000 6564.116
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 62
+[1]   62.000   -5.542 5232.237    0.000 6674.321
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 63
+[1]   63.000   -5.542 5269.863    0.000 6757.744
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 64
+[1]   64.000   -5.541 5310.207    0.000 6852.387
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 65
+[1]   65.000   -5.542 5349.755    0.000 6946.514
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 66
+[1]   66.000   -5.542 5385.137    0.000 7026.767
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 67
+[1]   67.000   -5.540 5422.783    0.000 7117.303
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 68
+[1]   68.000   -5.540 5457.954    0.000 7200.969
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 69
+[1]   69.000   -5.539 5495.347    0.000 7295.175
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 70
+[1]   70.000   -5.540 5530.449    0.000 7383.875
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 71
+[1]   71.000   -5.541 5565.121    0.000 7471.819
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 72
+[1]   72.000   -5.541 5595.814    0.000 7545.869
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 73
+[1]   73.000   -5.540 5629.936    0.000 7634.869
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 74
+[1]   74.000   -5.540 5666.430    0.000 7736.172
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 75
+[1]   75.000   -5.539 5701.678    0.000 7834.215
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 76
+[1]   76.000   -5.539 5735.411    0.000 7928.729
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 77
+[1]   77.000   -5.539 5767.791    0.000 8020.281
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 78
+[1]   78.000   -5.538 5800.955    0.000 8116.012
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 79
+[1]   79.000   -5.539 5833.293    0.000 8211.288
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 80
+[1]   80.000   -5.540 5863.991    0.000 8301.480
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 81
+[1]   81.000   -5.541 5892.622    0.000 8384.919
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 82
+[1]   82.000   -5.541 5925.815    0.000 8490.788
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 83
+[1]   83.000   -5.540 5957.881    0.000 8593.201
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 84
+[1]   84.000   -5.539 5989.698    0.000 8695.506
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 85
+[1]   85.000   -5.539 6018.788    0.000 8787.970
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 86
+[1]   86.000   -5.538 6047.310    0.000 8878.856
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 87
+[1]   87.000   -5.539 6077.150    0.000 8979.559
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 88
+[1]   88.000   -5.538 6107.778    0.000 9085.312
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 89
+[1]   89.000   -5.538 6135.608    0.000 9178.970
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 90
+[1]   90.000   -5.538 6163.493    0.000 9275.260
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 91
+[1]   91.000   -5.538 6188.828    0.000 9360.677
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 92
+[1]   92.000   -5.538 6213.215    0.000 9443.898
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 93
+[1]   93.000   -5.538 6241.897    0.000 9550.644
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 94
+[1]   94.000   -5.538 6269.002    0.000 9650.626
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 95
+[1]   95.000   -5.539 6294.859    0.000 9746.340
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] 96
+[1]   96.000   -5.539 6323.359    0.000 9859.659
+[1] "here 3.1"
+[1] "here 4"
+[1] "here 5"
+[1] "here 5.1"
+> #save results
+> save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
+> (t=proc.time()-t1)
+   user  system elapsed 
+ 58.857   2.129 151.317 
 > #stopCluster(cl)
 > 
 > proc.time()
    user  system elapsed 
- 37.301   3.738 366.810 
+126.008   5.508 509.547 
 > 
 > 
 > proc.time()
    user  system elapsed 
- 37.302   3.738 366.811 
+126.009   5.508 509.547 

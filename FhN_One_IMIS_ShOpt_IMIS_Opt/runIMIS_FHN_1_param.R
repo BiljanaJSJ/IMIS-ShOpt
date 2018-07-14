@@ -105,7 +105,7 @@ colnames(coefs) = names(x0)
 #system.  The third parameter is the one to manipulate
 #names(spars)=c("c")
 
-B=1000
+B=100
 B.re=10000
 number_k=150
 D=4
@@ -145,12 +145,12 @@ proc.time()
 
 
 ##run the IMIS-Opt
-#source('IMIS.R')
-#t1=proc.time()
-#output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
-##save results
-#save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
-#(t=proc.time()-t1)
+source('IMIS.R')
+t1=proc.time()
+output_IMIS_opt<- IMIS(B, B.re, number_k, D=12,logging=TRUE,data)
+#save results
+save(output_IMIS_opt,file='FhN_1Param_IMIS_Opt_D12.RData')
+(t=proc.time()-t1)
 #stopCluster(cl)
 
 proc.time()

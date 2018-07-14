@@ -3,7 +3,7 @@
 #################################################################
 #setwd('D:/Publications/IMIS-ShOpt/incremental-mixture-importance-submitted/codeSubmit/codeSubmit/FhN_One_IMIS_ShOpt_IMIS_Opt')
 rm(list = ls(all = TRUE))
-#setwd('E:/IMISCode/codeSubmit_keep_all_files/FhN_One_IMIS_ShOpt_IMIS_Opt')
+setwd('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_One_IMIS_ShOpt_IMIS_Opt/FhN_One_IMIS_ShOpt_IMIS_Opt')
 source("Two-stage-FhN-just-c-with-prior.R")                         # 2-stage functions
 source("IMIS.opt.colloc.proc-3optimizers.general-no-touchups.R")    # General IMIS 3 optimizers function 
 source("fhn-model-set-up-x0proc-just-c.R")                          # likelihood etc...
@@ -15,7 +15,7 @@ library(doParallel)
 library(CollocInfer)
 
 
-output_fullModel=get(load('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_12/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
+output_fullModel=get(load('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
 output_1parModelIMIS_shOpt=get(load('FhN_1Param_IMIS_Shopt_D4.RData'))
 output_IMIS_opt=get(load('FhN_1Param_IMIS_Opt_D12.RData'))
                           
@@ -158,21 +158,22 @@ norm_post=exp(logpost)/normconst$value
 #stopCluster(cl)
 
 
-plot(cgrid,norm_post)
-lines(dsamples$x,normalizedsamples,col='red')
+#plot(cgrid,norm_post)
+#lines(dsamples$x,normalizedsamples,col='red')
 
 
 
 
-plot(dsamples$x,normalizedsamples)
-plot(cgrid,norm_post)
+#plot(dsamples$x,normalizedsamples)
+#plot(cgrid,norm_post)
 
 KLdiv(cbind(norm_post,normalizedsamples))
 
 
-# norm_post normalizedsamples
-# norm_post         0.00000000        0.07526725
-# normalizedsamples 0.07500949        0.00000000
+
+#                   norm_post normalizedsamples
+# norm_post         0.000000000       0.001636068
+# normalizedsamples 0.000962198       0.000000000
 
 
 PlotsResampledTraj=function(times=seq(0,20,0.2),output,title,filename){
@@ -227,7 +228,7 @@ PlotsResampledTraj(times=seq(0,20,0.2),output=output_fullModel,title='C.IMIS-ShO
 
 setEPS()
 postscript("FIG9.eps",horizontal=FALSE, paper="special",height=18,width=24, colormodel = "cmyk", 
-           family = "Helvetica")
+					 family = "Helvetica")
 
 par(mfrow=c(1,1),mar=rep(6,4))
 h1=hist(output_1parModelIMIS_shOpt$X_all[1:10000],breaks=35,plot=F)
