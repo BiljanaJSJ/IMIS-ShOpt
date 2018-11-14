@@ -25,16 +25,16 @@ clusterExport(cl,varlist=ls(),envir = environment())
 clusterCall(cl,function(x) {library(deSolve)})
 
 #run the algorithm
-t1=proc.time()[1]
+t1=proc.time()
 out_ls=runIMIS_ShOpt(cl,N0=3*1000,D=3,R=10,B=1000,J=10000,niter=1000,
                        priorpars=c(1,1,1,1,N,5/N),N,dat,times,
                        par_true=c(0.0062,0.098,256,5))
-(t=proc.time()[1]-t1)/60
-stopCluster(cl)
+(t=proc.time()-t1)
 
 
 
+save(t, file='t.RData')
 #save the results
 save(out_ls,file='IMIS_Shopt_new_WidePrior100000iter.RData') 
-
+stopCluster(cl)
 

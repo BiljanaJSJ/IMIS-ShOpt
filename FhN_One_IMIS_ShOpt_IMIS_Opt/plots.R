@@ -3,7 +3,8 @@
 #################################################################
 #setwd('D:/Publications/IMIS-ShOpt/incremental-mixture-importance-submitted/codeSubmit/codeSubmit/FhN_One_IMIS_ShOpt_IMIS_Opt')
 rm(list = ls(all = TRUE))
-setwd('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_One_IMIS_ShOpt_IMIS_Opt/FhN_One_IMIS_ShOpt_IMIS_Opt')
+#setwd('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_One_IMIS_ShOpt_IMIS_Opt/FhN_One_IMIS_ShOpt_IMIS_Opt')
+setwd('E:/Publications/IMISCode_july_17_2018_submitted/IMIS_ShOpt/FhN_One_IMIS_ShOpt_IMIS_Opt')
 source("Two-stage-FhN-just-c-with-prior.R")                         # 2-stage functions
 source("IMIS.opt.colloc.proc-3optimizers.general-no-touchups.R")    # General IMIS 3 optimizers function 
 source("fhn-model-set-up-x0proc-just-c.R")                          # likelihood etc...
@@ -15,7 +16,8 @@ library(doParallel)
 library(CollocInfer)
 
 
-output_fullModel=get(load('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
+#output_fullModel=get(load('E:/IMISCode/IMIS-ShOpt_bcp_VM_r7l_July_13/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
+output_fullModel=get(load('E:/Publications/IMISCode_july_17_2018_submitted/IMIS_ShOpt/FhN_fullModel_IMIS_ShOpt/IMIS_shopt_full_fhn_D10.RData'))
 output_1parModelIMIS_shOpt=get(load('FhN_1Param_IMIS_Shopt_D4.RData'))
 output_IMIS_opt=get(load('FhN_1Param_IMIS_Opt_D12.RData'))
                           
@@ -51,7 +53,7 @@ log_prior=sapply(cgrid,function(x) {prior(x,logs=TRUE)})
 
 
 setEPS()
-postscript("FIG1.eps",horizontal=FALSE, paper="special",height=22,width=24, colormodel = "cmyk", 
+postscript("FIG1.eps",horizontal=FALSE, paper="special",height=24,width=24, colormodel = "cmyk", 
     family = "Helvetica")
   
 #png('loglikPriorIMIS.png',height = 450,width=600)
@@ -60,23 +62,23 @@ postscript("FIG1.eps",horizontal=FALSE, paper="special",height=22,width=24, colo
 par(mfrow=c(3,2),oma=c(3,2,rep(1,2))+0.005,mar=c(8,8,8,8)+0.5)
 #unnormalized log posterior
 
-plot(cgrid,(logpost),cex.lab=4,cex.axis=4,cex.main=4,mgp=c(6,2.5,0),xlab='c',ylab='density',main='A. Unnormalized log posterior')
+plot(cgrid,(logpost),cex.lab=4,cex.axis=4,cex.main=5,mgp=c(6,2.5,0),xlab='c',ylab='density',main='A. Unnormalized log posterior', lwd=3)
 
 
 #Likelihood over a coarse grid
-plot(cgrid,loglik,cex.lab=4,cex.axis=4,cex.main=4,mgp=c(6,2.5,0),xlab='c',ylab='density',main='B.Log likelihood')
+plot(cgrid,loglik,cex.lab=4,cex.axis=4,cex.main=5,mgp=c(6,2.5,0),xlab='c',ylab='density',main='B.Log likelihood', lwd=3)
 
 
 #log prior
-plot(cgrid,log_prior,cex.lab=4,cex.axis=4,cex.main=4,mgp=c(6,2.5,0),xlab='c',ylab='density',main='C.Log prior c~N(14,2)')
+plot(cgrid,log_prior,cex.lab=4,cex.axis=4,cex.main=5,mgp=c(6,2.5,0),xlab='c',ylab='density',main='C.Log prior c~N(14,2)', lwd=3)
 
 #IMIS-Opt posterior estimate
 
 
-plot(density(output_IMIS_opt$resample),xlab='c',ylab='density',mgp=c(6,2.5,0),xlim=range(cgrid),main='D.IMIS-Opt posterior density',cex.axis=4,cex.main=4,cex.lab=4)
+plot(density(output_IMIS_opt$resample),xlab='c',ylab='density',mgp=c(6,2.5,0),xlim=range(cgrid),main='D.IMIS-Opt posterior density',cex.axis=4,cex.main=5,cex.lab=4, lwd=3)
 ##IMIS-Opt posterior estimate zoomed in
 ##par(new=TRUE, oma=c(5,6,0,0.005))
-plot(density(output_1parModelIMIS_shOpt$resample),xlab='c',ylab='density',mgp=c(6,2.5,0),xlim=range(cgrid),main='E.IMIS-ShOpt posterior density',cex.axis=4,cex.main=4,cex.lab=4)
+plot(density(output_1parModelIMIS_shOpt$resample),xlab='c',ylab='density',mgp=c(6,2.5,0),xlim=range(cgrid),main='E.IMIS-ShOpt posterior density',cex.axis=4,cex.main=5,cex.lab=4, lwd=3)
 
 par(new=TRUE, oma=c(9,13,1,0))
 # ##par(new=TRUE, oma=c(5,6,0,0.005))
@@ -87,7 +89,7 @@ matLayout=matrix(0,6, 4, byrow = TRUE)
 #matLayout[3,3]=1
 matLayout[4,3]=1; #matLayout[4,2]=1
 layout(matLayout)
-plot(density(output_IMIS_opt$resample,adj=6), col='red',main='IMIS-Opt:zoom in',cex.axis=3,cex.main=4,cex.lab=3,xlab='',lwd=2,mgp=c(1.5,1,0),ylab='')
+plot(density(output_IMIS_opt$resample,adj=6), col='red',main='IMIS-Opt:zoom in',cex.axis=2.5,cex.main=4,cex.lab=3,xlab='',lwd=3,mgp=c(1.5,1,0),ylab='')
 
 #dev.off()
 
@@ -108,7 +110,7 @@ matLayout=matrix(0,6, 4, byrow = TRUE)
 matLayout[6,2]=1
 
 layout(matLayout)
-plot(density(output_1parModelIMIS_shOpt$resample,adj=6), col='red',main='IMIS-ShOpt:zoom in',cex.axis=3,cex.main=4,cex.lab=3,xlab='',lwd=2,mgp=c(1.5,1,0),ylab='')
+plot(density(output_1parModelIMIS_shOpt$resample,adj=6), col='red',main='IMIS-ShOpt:zoom in',cex.axis=3,cex.main=4,cex.lab=3,xlab='',lwd=3,mgp=c(1.5,1,0),ylab='')
 
 dev.off()
 
@@ -156,24 +158,34 @@ norm_post=exp(logpost)/normconst$value
 
 
 #stopCluster(cl)
-
-
 #plot(cgrid,norm_post)
 #lines(dsamples$x,normalizedsamples,col='red')
-
-
-
-
 #plot(dsamples$x,normalizedsamples)
 #plot(cgrid,norm_post)
 
 KLdiv(cbind(norm_post,normalizedsamples))
 
-
-
-#                   norm_post normalizedsamples
+#                    norm_post   normalizedsamples
 # norm_post         0.000000000       0.001636068
 # normalizedsamples 0.000962198       0.000000000
+#IMIS-Opt
+dsamples=density(output_IMIS_opt$resample, from=2.5, to=3.5)
+normalizedsamples=dsamples$y/exp(output_IMIS_opt$stat[2,1])
+
+##evaluate the theoretical density over the same interval
+cgrid=seq(2.5,3.5,length=length(dsamples$y))
+logpost=sapply(cgrid,function(x) {prior(x,logs=TRUE)+likelihood(x,logs=TRUE,data=output_IMIS_opt$data)})
+
+##numerically integrate the target posterior to obtain the normalizing constant
+normconstintegrand <- function(x) {exp(prior(x,logs=TRUE)+likelihood(x,logs=TRUE,data=output_IMIS_opt$data))}
+normconst=integrate(normconstintegrand,lower=2.5,upper=3.5)
+norm_post=exp(logpost)/normconst$value
+
+KLdiv(cbind(norm_post,normalizedsamples))
+
+#                    norm_post   normalizedsamples
+# norm_post          0.000000          3.381397
+# normalizedsamples  8.473557          0.000000
 
 
 PlotsResampledTraj=function(times=seq(0,20,0.2),output,title,filename){
@@ -188,27 +200,30 @@ PlotsResampledTraj=function(times=seq(0,20,0.2),output,title,filename){
   #png(filename)
   
   setEPS()
-  postscript(filename,horizontal=FALSE, paper="special",height=18,width=24, colormodel = "cmyk", 
+  postscript(filename,horizontal=FALSE, paper="special",height=14,width=18, colormodel = "cmyk", 
              family = "Helvetica")
   
   
   par(mfrow=c(1,1),mar=c(9,9,9,9))
-  plot(times,getTraj[[1]][,'V'], col='grey',main=title,type='l',mgp=c(7,2.5,0),ylab='',xlab='time',cex.axis=4,cex.main=4,cex.lab=4,lwd=2)
+  plot(times,getTraj[[1]][,'V'], col='grey',main=title,type='l',mgp=c(7,2.5,0),ylab='',xlab='time',cex.axis=3.5,cex.main=4.5,cex.lab=4,lwd=2)
+  box(lty = "solid",col='black')
+  
   for (i in (2:length(getTraj))){
     lines(times,getTraj[[i]][,'V'],col='grey',lwd=5)
   }  
-  lines(times,meanSol[,'V'],col='blue',lwd=3)
-  points(seq(0,20,0.2),output$data[,1],pch=21,col='red',lwd=1.5)
+  lines(times,meanSol[,'V'],col='blue',lwd=5)
+  points(seq(0,20,0.2),output$data[,1],pch=16,col='red', cex = 2)
   
  
- 
-  lines(times,getTraj[[1]][,'R'], col='grey',main='',type='l',lwd=3)
+  lines(times,getTraj[[1]][,'R'], col='grey',main='',type='l',lwd=5)
   for (i in (2:length(getTraj))){
     lines(times,getTraj[[i]][,'R'],col='grey',lwd=5)
   }  
   lines(times,meanSol[,'R'],col='darkgreen',lwd=2)
-  points(seq(0,20,0.2),output$data[,2],pch=21,col='red',lwd=1.5)
-  legend(-0.2,-1.05,c("V","R",'data'),cex=4,lty=c(1,1,NA),pch=c(NA,NA,21),col=c("blue","darkgreen",'red'),lwd=c(3,2,1.5))
+  points(seq(0,20,0.2),output$data[,2],pch=19,col='red', cex = 2)
+  
+  
+  legend(-0.09,-1.05,c("V","R",'data'),cex=3.5,lty=c(1,1,NA),pch=c(NA,NA,19),col=c("blue","darkgreen",'red'),lwd=c(5,2,2))
   dev.off()
 }
 
@@ -227,25 +242,27 @@ PlotsResampledTraj(times=seq(0,20,0.2),output=output_fullModel,title='C.IMIS-ShO
 #PlotsResampledTraj(times=seq(0,20,0.2),output=output_1parModelIMIS_shOpt,title='IMIS-ShOpt samples, FhN-ODE model',filename='Oneparam_IMIS_shOpt_Splunk.png')
 
 setEPS()
-postscript("FIG9.eps",horizontal=FALSE, paper="special",height=18,width=24, colormodel = "cmyk", 
+postscript("FIG9.eps",horizontal=FALSE, paper="special",height=14,width=18, colormodel = "cmyk", 
 					 family = "Helvetica")
 
-par(mfrow=c(1,1),mar=rep(6,4))
-h1=hist(output_1parModelIMIS_shOpt$X_all[1:10000],breaks=35,plot=F)
+par(mfrow=c(1,1),mar=c(6,8,8.5,6))
+h1=hist(output_1parModelIMIS_shOpt$X_all[1:1000],breaks=35,plot=F)
 h1$counts=h1$counts/sum(h1$counts)
-h2=hist(output_1parModelIMIS_shOpt$X_all[10001:19000],breaks=15,plot=F)
+h2=hist(output_1parModelIMIS_shOpt$X_all[1001:1200],breaks=15,plot=F)
 h2$counts=h2$counts/sum(h2$counts)
 rangey=max(range(h1$counts)[2],range(h2$counts)[2])
 
 
-plot(h1,main='Importance sampling distribution at the end of the Shotgun optimization stage',xlab='c',ylab='Density', xlim=c(0,20),ylim=c(0,rangey),col='coral3',cex.main=3,cex.lab=2.5,cex.axis=2.5,mgp=c(3.5,1.5,0))
+plot(h1,main='Importance sampling distribution \nat the end of the Shotgun optimization stage',cex.main=4.5,xlab='c',ylab='Density', xlim=c(0,20),ylim=c(0,rangey),col='grey20',cex.lab=4,cex.axis=3.5,mgp=c(5,2,0))
+#title('Importance sampling distribution \nat the end of the Shotgun optimization stage',cex=15)
 par(new=T)
-plot(h2,main='',xlab='',ylab='',  xlim=c(0,20),ylim=c(0,rangey),cex.main=3,cex.lab=2.5,cex.axis=2.5,col='darkcyan',mgp=c(3.5,1.5,0))
-points(output_1parModelIMIS_shOpt$center[2],0,col='red',pch=16,bg=2,cex=5)
-points(output_1parModelIMIS_shOpt$center[3],0,col='red',pch=16,bg=2,cex=5)
-points(output_1parModelIMIS_shOpt$center[1],0,col='red',pch=21,bg=2,cex=5)
-points(output_1parModelIMIS_shOpt$center[7],0,col='red',pch=21,bg=2,cex=5)
-lines(density(output_1parModelIMIS_shOpt$resample)$x,density(output_1parModelIMIS_shOpt$resample)$y/245,col='red',lwd=10);
+plot(h2,main='',xlab='',ylab='',  xlim=c(0,20),ylim=c(0,rangey),cex.lab=4,cex.axis=3.5,col='grey80',mgp=c(5,2,0))
+points(output_1parModelIMIS_shOpt$center[2],0,col='grey10',pch=19,cex=5)
+points(output_1parModelIMIS_shOpt$center[3],0,col='grey10',pch=19,cex=5)
+points(output_1parModelIMIS_shOpt$center[1],0,col='grey10',pch=19,cex=5)
+points(output_1parModelIMIS_shOpt$center[7],0,col='grey10',pch=19,cex=5)
+lines(density(output_1parModelIMIS_shOpt$resample)$x,density(output_1parModelIMIS_shOpt$resample)$y/245,col='grey10',lwd=10);
+
 
 dev.off()
 

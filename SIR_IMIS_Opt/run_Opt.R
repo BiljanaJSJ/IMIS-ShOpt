@@ -21,13 +21,14 @@ clusterExport(cl,varlist=ls(),envir = environment())
 clusterCall(cl,function(x) {library(deSolve)})
 
 
-t1=proc.time()[1]
-out_ls=runIMIS_Opt(cl,N0=3*1000,D=3,B=1000,J=10000,niter=1000,
+t1=proc.time()
+out_ls=runIMIS_Opt(cl,N0=3*1000,D=30,B=1000,J=10000,niter=1000,
                        priorpars=c(1,1,1,1,N,5/N),N,dat,times,
                        par_true=c(0.0062,0.098,256,5))
 
-(t=proc.time()[1]-t1)/60
+(t=proc.time()-t1)
 save(out_ls,file='IMIS_opt_WidePrior1000.RData')  
+save(t, file='t.RData')
 stopCluster(cl)
 
 
