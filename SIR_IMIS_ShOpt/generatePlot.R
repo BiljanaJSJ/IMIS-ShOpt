@@ -37,6 +37,6 @@ setEPS()
 postscript("FIG6.eps",horizontal=FALSE, paper="special",height=15,width=19, colormodel = "cmyk", 
            family = "Helvetica")
 pairs2(out_ls$theta[,c(2,1,4)],labels=c(expression(alpha),expression(beta),expression(I(0)),expression(tau)), bg="cyan",
-       diag.panel=panel.hist,cex.labels = 4, font.labels=4,cex.axis=4,upper.panel=NULL, oma=c(2,3,2,2),gap=8,label.pos =0.9,mgp = c(5, 3, 1))
+       diag.panel=panel.hist,cex.labels = 4, font.labels=4,cex.axis=3,upper.panel=NULL, oma=c(2,3,2,2),gap=8,label.pos =0.9,mgp = c(5, 3, 1))
 dev.off()
 
