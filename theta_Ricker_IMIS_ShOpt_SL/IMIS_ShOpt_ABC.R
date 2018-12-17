@@ -140,7 +140,7 @@ IMIS_ShOpt_ABC <- function(B, B.re, number_T=1000, D,Q,obs.data=obs.data,M=30, N
       ############################################ WHILE LOOP OVER THE i ###############	
       d=1;i=1
 
-  while(length(which_remain)>1 && i<=D/3){
+  while(length(which_remain)>1 && i<=D){
         print("herei")
         print(i)
         print(paste("i=",i))

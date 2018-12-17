@@ -60,7 +60,7 @@ optim.fun2=synthloglike
 
 #run the IMIS-ShOpt-ABC
 set.seed(3588648)
-samples=IMIS_ShOpt_ABC(B=1000, B.re=3000, number_T=500,D=10,Q=3,obs.data=obs.data,M=50, N0.true=N0.true,timestep=timestep,dist.metric=abs,eps=eps,optim.fun1=optim.fun1, optim.fun2=optim.fun2, other=NULL)
+samples=IMIS_ShOpt_ABC(B=1000, B.re=3000, number_T=500,D=4,Q=3,obs.data=obs.data,M=50, N0.true=N0.true,timestep=timestep,dist.metric=abs,eps=eps,optim.fun1=optim.fun1, optim.fun2=optim.fun2, other=NULL)
 
 
 ####################################################################
