@@ -10,15 +10,15 @@ Here is the code for the IMIS-ShOpt Examples.
 Brief descriptions of the files included in this directory:
 
 
-FhN_fullModel_IMIS_ShOpt               - example in the Section 4.1.1.
+FhN_fullModel_IMIS_ShOpt               - example in the Section 4.1.2.
  
-FhN_One_IMIS_ShOpt_IMIS_Opt            - example in the Sections 4.1.2.
+FhN_One_IMIS_ShOpt_IMIS_Opt            - example in the Sections 4.1.1.
 
-FhN_One_IMIS_ShOpt_IMIS_Opt_NLS        - example in the Sections 4.1.2.
+FhN_One_IMIS_ShOpt_IMIS_Opt_NLS        - example in the Sections 4.1.1.
 
-FhN_One_IMIS_ShOpt_IMIS_Opt_Profiling  - example in the Sections 4.1.2.
+FhN_One_IMIS_ShOpt_IMIS_Opt_Profiling  - example in the Sections 4.1.1.
 
-FhN_One_IMIS_ShOpt_IMIS_Opt_TwoStage   - example in the Sections 4.1.2.
+FhN_One_IMIS_ShOpt_IMIS_Opt_TwoStage   - example in the Sections 4.1.1.
 
 SIR_IMIS_Opt                           - example in the Section 4.2.
 
